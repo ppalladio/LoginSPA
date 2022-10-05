@@ -3,7 +3,7 @@ import React, { useState, useEffect, useReducer } from 'react';
 import Card from '../UI/Card/Card';
 import classes from './Login.module.css';
 import Button from '../UI/Button/Button';
-
+import Input from '../UI/Input/input';
 const Login = (props) => {
     // const [enteredEmail, setEnteredEmail] = useState('');
     // const [emailIsValid, setEmailIsValid] = useState();
@@ -59,8 +59,11 @@ const Login = (props) => {
         return () => {
             clearTimeout(identifier); //' remove the timer set, hence we are left with the latest timer.
         }; //' cleanup function, this function runs before the every new sideeffects exectuction(except for the first time)
-    }, [setFormIsValid, emailIsValid, passwordIsValid]); //'either of the variables in the dependency array changes will lead to the function to re-render.
-    //'WHEN combined with usereducer, the dependency array should be the whole state instead of of a fraction, OR USE object destruction LINE 50
+    }, [setFormIsValid, emailIsValid, passwordIsValid]);
+    /**
+     * 'either of the variables in the dependency array changes will lead to the function to re-render.
+     * 'WHEN combined with usereducer, the dependency array should be the whole state instead of of a fraction, OR USE object destruction LINE 50
+     * */
 
     const emailChangeHandler = (event) => {
         // setEnteredEmail(event.target.value);
@@ -93,34 +96,24 @@ const Login = (props) => {
     return (
         <Card className={classes.login}>
             <form onSubmit={submitHandler}>
-                <div
-                    className={`${classes.control} ${
-                        emailState.isValid === false ? classes.invalid : ''
-                    }`}
-                >
-                    <label htmlFor="email">E-Mail</label>
-                    <input
-                        type="email"
-                        id="email"
-                        value={emailState.value}
-                        onChange={emailChangeHandler}
-                        onBlur={validateEmailHandler}
-                    />
-                </div>
-                <div
-                    className={`${classes.control} ${
-                        passwordState.isValid === false ? classes.invalid : ''
-                    }`}
-                >
-                    <label htmlFor="password">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={passwordState.value}
-                        onChange={passwordChangeHandler}
-                        onBlur={validatePasswordHandler}
-                    />
-                </div>
+                <Input
+                    id="email"
+                    type="email"
+                    lable="E-mail"
+                    isValid={emailIsValid}
+                    value={emailState.value}
+                    onChange={emailChangeHandler}
+                    onBlur={validateEmailHandler}
+                />
+               <Input
+                    id="password"
+                    type="password"
+                    lable="Password"
+                    isValid={passwordIsValid}
+                    value={passwordState.value}
+                    onChange={passwordChangeHandler}
+                    onBlur={validatePasswordHandler}
+                />
                 <div className={classes.actions}>
                     <Button
                         type="submit"
