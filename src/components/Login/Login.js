@@ -46,17 +46,21 @@ const Login = (props) => {
     );
 
     //:useEffect
+
+    const { isValid: emailIsValid } = emailState;
+    const { isValid: passwordIsValid } = passwordState;
     useEffect(() => {
         const identifier = setTimeout(() => {
             //'settimeout return an timeoutID of setTimeout
             setFormIsValid(
-                emailState.isValid && passwordState.isValid, //. enable useeffect by change enteredEnauk,includes('@')  to emailState.IsValid
+                emailIsValid && passwordIsValid, //. enable useeffect by change enteredEnauk,includes('@')  to emailState.IsValid
             );
         }, 500); //' set a timer for every key stroke
         return () => {
             clearTimeout(identifier); //' remove the timer set, hence we are left with the latest timer.
         }; //' cleanup function, this function runs before the every new sideeffects exectuction(except for the first time)
-    }, [setFormIsValid, emailState, passwordState]); //'either of the variables in the dependency array changes will lead to the function to re-render. WHEN combined with usereducer, the dependency array should be the whole state instead of of a fraction
+    }, [setFormIsValid, emailIsValid, passwordIsValid]); //'either of the variables in the dependency array changes will lead to the function to re-render.
+    //'WHEN combined with usereducer, the dependency array should be the whole state instead of of a fraction, OR USE object destruction LINE 50
 
     const emailChangeHandler = (event) => {
         // setEnteredEmail(event.target.value);
