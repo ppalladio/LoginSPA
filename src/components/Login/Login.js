@@ -13,9 +13,15 @@ const Login = (props) => {
 
     //:useEffect
     useEffect(() => {
-        setFormIsValid(
-            enteredEmail.includes('@') && enteredPassword.trim().length > 6,
-        );
+        const identifier = setTimeout(() => {
+            //'settimeout return an timeoutID of setTimeout
+            setFormIsValid(
+                enteredEmail.includes('@') && enteredPassword.trim().length > 6,
+            );
+        }, 500); //' set a timer for every key stroke
+        return () => {
+            clearTimeout(identifier); //' remove the timer set, hence we are left with the latest timer.
+        }; //' cleanup function, this function runs before the every new sideeffects exectuction(except for the first time)
     }, [setFormIsValid, enteredEmail, enteredPassword]); //'either of the variables in the dependency array changes will lead to the function to re-render
 
     const emailChangeHandler = (event) => {
